@@ -12,22 +12,12 @@ import Svg.Attributes exposing (..)
 
 import Constants
 import Model exposing (..)
+import Update exposing (..)
 
 
 main : Program Never Board Msg
 main =
     Html.beginnerProgram { model = model, view = view, update = update }
-
-
-type Msg
-    = ChangeCell Int Int Cell
-
-
-update : Msg -> Board -> Board
-update msg board =
-    case msg of
-        ChangeCell x y newCell ->
-            Array2D.set x y newCell board
 
 
 view : Board -> Html Msg
