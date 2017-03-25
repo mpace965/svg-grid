@@ -13,14 +13,26 @@ import Model exposing (..)
 import Update exposing (..)
 
 
-toColor : Cell -> String
-toColor cell =
-    case cell of
-        Floor ->
-            "white"
+renderBoard : Board -> Svg Msg
+renderBoard board =
+    svg [ Svg.Attributes.height "500" ] (toRows board)
 
-        Wall ->
-            "black"
+
+toRows : Board -> List (Svg Msg)
+toRows board =
+    let
+        buildRest board offset rowList =
+            case (getRow 0 board) of
+                Just row ->
+                    buildRest
+                        (deleteRow 0 board)
+                        (offset + 2 * circleRadius + 5)
+                        (rowList ++ [ (toSvg row offset) ])
+
+                Nothing ->
+                    rowList
+    in
+        buildRest board 0 []
 
 
 toSvg : Array Cell -> Int -> Svg Msg
@@ -39,20 +51,11 @@ toSvg row offset =
         svg [ (y (toString offset)) ] (toList <| indexedMap makeCircle row)
 
 
-toRows : Board -> List (Svg Msg)
-toRows board =
-    let
-        buildRest board offset rowList =
-            case (getRow 0 board) of
-                Just row ->
-                    buildRest (deleteRow 0 board) (offset + 2 * circleRadius + 5) (rowList ++ [ (toSvg row offset) ])
+toColor : Cell -> String
+toColor cell =
+    case cell of
+        Floor ->
+            "white"
 
-                Nothing ->
-                    rowList
-    in
-        buildRest board 0 []
-
-
-renderBoard : Board -> Svg Msg
-renderBoard board =
-    svg [ Svg.Attributes.height "500" ] (toRows board)
+        Wall ->
+            "black"

@@ -11,23 +11,13 @@ import Model exposing (..)
 import Update exposing (..)
 
 
-cellText : Cell -> String
-cellText cell =
-    case cell of
-        Floor ->
-            "0"
-
-        Wall ->
-            "1"
-
-
-rowToDiv : Array String -> Html Msg
-rowToDiv row =
+renderBoard : Board -> Html Msg
+renderBoard board =
     let
-        toSpan string =
-            span [] [ text string ]
+        textBoard =
+            Array2D.map cellText board
     in
-        div [] (toList (Array.map toSpan row))
+        div [] (textBoardToDivList textBoard)
 
 
 textBoardToDivList : Array2D String -> List (Html Msg)
@@ -44,10 +34,20 @@ textBoardToDivList textBoard =
         buildRest textBoard []
 
 
-renderBoard : Board -> Html Msg
-renderBoard board =
+rowToDiv : Array String -> Html Msg
+rowToDiv row =
     let
-        textBoard =
-            Array2D.map cellText board
+        toSpan string =
+            span [] [ text string ]
     in
-        div [] (textBoardToDivList textBoard)
+        div [] (toList (Array.map toSpan row))
+
+
+cellText : Cell -> String
+cellText cell =
+    case cell of
+        Floor ->
+            "0"
+
+        Wall ->
+            "1"
