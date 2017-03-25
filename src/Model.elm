@@ -19,5 +19,4 @@ type alias Board =
 
 model : Board
 model =
-    (repeat numRows numCols Floor)
-        |> set 0 0 Wall
+    repeat numRows numCols Floor
