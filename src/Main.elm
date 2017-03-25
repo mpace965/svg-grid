@@ -15,3 +15,14 @@ type alias Board =
 model : Board
 model =
     repeat 10 10 Floor
+
+
+type Msg
+    = ChangeCell Int Int Cell
+
+
+update : Msg -> Board -> Board
+update msg board =
+    case msg of
+        ChangeCell x y newCell ->
+            set x y newCell board
