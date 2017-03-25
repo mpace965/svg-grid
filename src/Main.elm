@@ -2,31 +2,21 @@ module Main exposing (..)
 
 import Array2D exposing (..)
 import Array exposing (Array)
-import Constants
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 
 
+-- Project Imports
+
+import Constants
+import Model exposing (..)
+
+
 main : Program Never Board Msg
 main =
     Html.beginnerProgram { model = model, view = view, update = update }
-
-
-type Cell
-    = Floor
-    | Wall
-
-
-type alias Board =
-    Array2D Cell
-
-
-model : Board
-model =
-    (repeat Constants.numRows Constants.numCols Floor)
-        |> Array2D.set 0 0 Wall
 
 
 type Msg
