@@ -1,6 +1,10 @@
 module Model exposing (..)
 
-import Array2D exposing (Array2D, repeat)
+import Array2D exposing (Array2D, repeat, set)
+
+
+-- Project Imports
+
 import Constants exposing (numCols, numRows)
 
 
@@ -16,4 +20,4 @@ type alias Board =
 model : Board
 model =
     (repeat numRows numCols Floor)
-        |> Array2D.set 0 0 Wall
+        |> set 0 0 Wall

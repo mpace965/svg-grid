@@ -55,7 +55,7 @@ toColor : Cell -> String
 toColor cell =
     case cell of
         Floor ->
-            "white"
+            "#F5F5F5"
 
         Wall ->
             "black"
