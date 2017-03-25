@@ -11,3 +11,7 @@ numCols =
 
 circleRadius =
     10
+
+
+circleSpacer =
+    5

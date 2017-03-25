@@ -8,14 +8,18 @@ import Svg.Attributes exposing (..)
 
 -- Project Imports
 
-import Constants exposing (circleRadius)
+import Constants exposing (circleRadius, circleSpacer, numCols, numRows)
 import Model exposing (..)
 import Update exposing (..)
 
 
 renderBoard : Board -> Svg Msg
 renderBoard board =
-    svg [ Svg.Attributes.height "500" ] (toRows board)
+    svg
+        [ height (toString <| numRows * (2 * circleRadius + circleSpacer) + circleSpacer)
+        , width (toString <| numCols * (2 * circleRadius + circleSpacer) + circleSpacer)
+        ]
+        (toRows board)
 
 
 toRows : Board -> List (Svg Msg)
@@ -26,7 +30,7 @@ toRows board =
                 Just row ->
                     buildRest
                         (deleteRow 0 board)
-                        (offset + 2 * circleRadius + 5)
+                        (offset + 2 * circleRadius + circleSpacer)
                         (rowList ++ [ (toSvg row offset) ])
 
                 Nothing ->
@@ -40,8 +44,8 @@ toSvg row offset =
     let
         makeCircle offset cell =
             circle
-                [ cx (toString <| circleRadius * 2 * (offset + 1) + (5 * offset))
-                , cy (toString <| circleRadius + 5)
+                [ cx (toString <| circleRadius + circleSpacer + offset * (2 * circleRadius + circleSpacer))
+                , cy (toString <| circleRadius + circleSpacer)
                 , fill (toColor cell)
                 , r (toString circleRadius)
                 , stroke "black"
