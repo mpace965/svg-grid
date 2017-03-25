@@ -1,6 +1,12 @@
 module Main exposing (..)
 
 import Array2D exposing (..)
+import Html exposing (..)
+
+
+main : Program Never Board Msg
+main =
+    Html.beginnerProgram { model = model, view = view, update = update }
 
 
 type Cell
@@ -26,3 +32,8 @@ update msg board =
     case msg of
         ChangeCell x y newCell ->
             set x y newCell board
+
+
+view : Board -> Html Msg
+view board =
+    div [] []
