@@ -3,6 +3,7 @@ module Main exposing (..)
 import Array2D exposing (..)
 import Array exposing (Array)
 import Html exposing (..)
+import Html.Attributes exposing (..)
 
 
 main : Program Never Board Msg
@@ -38,7 +39,15 @@ update msg board =
 
 view : Board -> Html Msg
 view board =
-    div [] (renderBoard board)
+    let
+        boardStyle =
+            style
+                [ ( "display", "flex" )
+                , ( "alignItems", "center" )
+                , ( "justifyContent", "center" )
+                ]
+    in
+        div [ boardStyle ] [ (renderBoard board) ]
 
 
 cellText : Cell -> String
@@ -74,10 +83,10 @@ textBoardToDivList textBoard =
         buildRest textBoard []
 
 
-renderBoard : Board -> List (Html Msg)
+renderBoard : Board -> Html Msg
 renderBoard board =
     let
         textBoard =
             Array2D.map cellText board
     in
-        textBoardToDivList textBoard
+        div [] (textBoardToDivList textBoard)
