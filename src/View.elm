@@ -11,8 +11,8 @@ import Update exposing (..)
 import SvgBoard exposing (renderBoard)
 
 
-view : Board -> Html Msg
-view board =
+view : Model -> Html Msg
+view model =
     let
         boardStyle =
             style
@@ -21,4 +21,4 @@ view board =
                 , ( "justifyContent", "center" )
                 ]
     in
-        div [ boardStyle ] [ (renderBoard board) ]
+        div [ boardStyle ] [ (renderBoard model.board) ]

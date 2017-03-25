@@ -1,17 +1,21 @@
 module Constants exposing (..)
 
 
-numRows =
-    10
-
-
-numCols =
-    10
-
-
 circleRadius =
     10
 
 
 circleSpacer =
     5
+
+
+defaultTickRate =
+    1000
+
+
+numCols =
+    10
+
+
+numRows =
+    10

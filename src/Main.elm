@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Html exposing (beginnerProgram)
+import Html exposing (program)
 
 
 -- Project Imports
@@ -10,6 +10,6 @@ import Update exposing (..)
 import View exposing (..)
 
 
-main : Program Never Board Msg
+main : Program Never Model Msg
 main =
-    beginnerProgram { model = model, view = view, update = update }
+    program { init = init, view = view, update = update, subscriptions = subscriptions }
