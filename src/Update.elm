@@ -14,16 +14,19 @@ import Model exposing (..)
 type Msg
     = ChangeCell Point Cell
     | ChangeTickRate (Maybe Time)
+    | ResetBoard
     | StartAlgorithm Algorithm
     | Tick Time
+
+
+initialBoard : Board
+initialBoard =
+    repeat numRows numCols Floor
 
 
 init : ( Model, Cmd Msg )
 init =
     let
-        initialBoard =
-            repeat numRows numCols Floor
-
         model =
             { activeAlgorithm = Nothing
             , board = initialBoard
@@ -41,6 +44,9 @@ update msg model =
 
         ChangeTickRate time ->
             ( { model | tickRate = time }, Cmd.none )
+
+        ResetBoard ->
+            ( { model | board = initialBoard }, Cmd.none )
 
         StartAlgorithm algorithm ->
             let
