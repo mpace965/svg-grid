@@ -34,6 +34,13 @@ type alias Point =
     }
 
 
+createPoint : Int -> Int -> Point
+createPoint x y =
+    { x = x
+    , y = y
+    }
+
+
 getPoint : Point -> Array2D a -> Maybe a
 getPoint point array =
     get point.x point.y array

@@ -2,6 +2,7 @@ module View exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onClick)
 
 
 -- Project Imports
@@ -20,5 +21,11 @@ view model =
                 , ( "alignItems", "center" )
                 , ( "justifyContent", "center" )
                 ]
+
+        bfsStartingState =
+            [ (createPoint 0 0) ]
     in
-        div [ boardStyle ] [ (renderBoard model.board) ]
+        div [ boardStyle ]
+            [ renderBoard model.board
+            , button [ onClick (StartAlgorithm (Bfs bfsStartingState)) ] [ text "Breadth First Search" ]
+            ]
