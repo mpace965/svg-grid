@@ -1,6 +1,6 @@
 module BfsAlgorithm exposing (..)
 
-import List exposing (filterMap, head, isEmpty, tail)
+import List exposing (filterMap, foldl, head, isEmpty, tail)
 import Maybe exposing (andThen, withDefault)
 
 
@@ -43,13 +43,19 @@ neighbors board point =
         filterMap (floorPoint board) adjacent
 
 
+markNeighbors : List Point -> Board -> Board
+markNeighbors neighbors board =
+    foldl (setPoint Marked) board neighbors
+
+
 updateBoard : Board -> BfsState -> Maybe Point -> List Point -> ( Board, BfsState )
 updateBoard oldBoard oldState point neighbors =
     let
         newBoard =
             case point of
                 Just point ->
-                    setPoint point Wall oldBoard
+                    (setPoint Wall point oldBoard)
+                        |> markNeighbors neighbors
 
                 Nothing ->
                     oldBoard
@@ -88,10 +94,22 @@ update model state =
         ( newBoard, newState ) =
             nextStep model.board state
 
+        updatedAlgorithm =
+            newAlgorithm newState
+
+        newTickRate =
+            case updatedAlgorithm of
+                Just _ ->
+                    model.tickRate
+
+                Nothing ->
+                    Nothing
+
         newModel =
             { model
                 | board = newBoard
-                , activeAlgorithm = (newAlgorithm newState)
+                , activeAlgorithm = updatedAlgorithm
+                , tickRate = newTickRate
             }
     in
         newModel

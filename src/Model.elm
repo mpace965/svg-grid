@@ -19,12 +19,13 @@ type alias Board =
 type Cell
     = Floor
     | Wall
+    | Marked
 
 
 type alias Model =
     { activeAlgorithm : Maybe Algorithm
     , board : Board
-    , tickRate : Time
+    , tickRate : Maybe Time
     }
 
 
@@ -46,8 +47,8 @@ getPoint point array =
     get point.x point.y array
 
 
-setPoint : Point -> a -> Array2D a -> Array2D a
-setPoint point element array =
+setPoint : a -> Point -> Array2D a -> Array2D a
+setPoint element point array =
     set point.x point.y element array
 
 

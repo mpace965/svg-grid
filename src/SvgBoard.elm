@@ -75,3 +75,6 @@ toColor cell =
 
         Wall ->
             "black"
+
+        Marked ->
+            "gray"

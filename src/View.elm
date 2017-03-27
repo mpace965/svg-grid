@@ -23,9 +23,10 @@ view model =
                 ]
 
         bfsStartingState =
-            [ (createPoint 0 0) ]
+            [ (createPoint 3 4) ]
     in
         div [ boardStyle ]
             [ renderBoard model.board
             , button [ onClick (StartAlgorithm (Bfs bfsStartingState)) ] [ text "Breadth First Search" ]
+            , button [ onClick (ChangeTickRate Nothing) ] [ text "Pause" ]
             ]

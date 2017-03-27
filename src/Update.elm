@@ -13,6 +13,7 @@ import Model exposing (..)
 
 type Msg
     = ChangeCell Point Cell
+    | ChangeTickRate (Maybe Time)
     | StartAlgorithm Algorithm
     | Tick Time
 
@@ -26,7 +27,7 @@ init =
         model =
             { activeAlgorithm = Nothing
             , board = initialBoard
-            , tickRate = defaultTickRate
+            , tickRate = Nothing
             }
     in
         ( model, Cmd.none )
@@ -38,8 +39,18 @@ update msg model =
         ChangeCell point newCell ->
             ( { model | board = (set point.x point.y newCell model.board) }, Cmd.none )
 
+        ChangeTickRate time ->
+            ( { model | tickRate = time }, Cmd.none )
+
         StartAlgorithm algorithm ->
-            ( { model | activeAlgorithm = Just algorithm }, Cmd.none )
+            let
+                newModel =
+                    { model
+                        | activeAlgorithm = Just algorithm
+                        , tickRate = Just defaultTickRate
+                    }
+            in
+                ( newModel, Cmd.none )
 
         Tick newTime ->
             case model.activeAlgorithm of
@@ -54,4 +65,9 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    every (model.tickRate * millisecond) Tick
+    case model.tickRate of
+        Just tickRate ->
+            every (tickRate * millisecond) Tick
+
+        Nothing ->
+            Sub.none
