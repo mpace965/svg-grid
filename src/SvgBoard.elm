@@ -13,13 +13,22 @@ import Model exposing (..)
 import Update exposing (..)
 
 
+totalCircleSize : number
+totalCircleSize =
+    2 * circleRadius + circleSpacer
+
+
 renderBoard : Board -> Svg Msg
 renderBoard board =
-    svg
-        [ height (toString <| numRows * (2 * circleRadius + circleSpacer) + circleSpacer)
-        , width (toString <| numCols * (2 * circleRadius + circleSpacer) + circleSpacer)
-        ]
-        (toRows board)
+    let
+        totalSize dim =
+            dim * totalCircleSize + circleSpacer
+    in
+        svg
+            [ height (totalSize numRows |> toString)
+            , width (totalSize numCols |> toString)
+            ]
+            (toRows board)
 
 
 toRows : Board -> List (Svg Msg)
@@ -30,7 +39,7 @@ toRows board =
                 Just row ->
                     buildRest
                         (deleteRow 0 board)
-                        (offset + 2 * circleRadius + circleSpacer)
+                        (offset + totalCircleSize)
                         (rowList ++ [ (toSvg row offset) ])
 
                 Nothing ->
@@ -42,17 +51,20 @@ toRows board =
 toSvg : Array Cell -> Int -> Svg Msg
 toSvg row offset =
     let
+        initial =
+            circleRadius + circleSpacer
+
         makeCircle offset cell =
             circle
-                [ cx (toString <| circleRadius + circleSpacer + offset * (2 * circleRadius + circleSpacer))
-                , cy (toString <| circleRadius + circleSpacer)
+                [ cx (initial + offset * totalCircleSize |> toString)
+                , cy (toString initial)
                 , fill (toColor cell)
                 , r (toString circleRadius)
                 , stroke "black"
                 ]
                 []
     in
-        svg [ (y (toString offset)) ] (toList <| indexedMap makeCircle row)
+        svg [ (y (toString offset)) ] (indexedMap makeCircle row |> toList)
 
 
 toColor : Cell -> String
