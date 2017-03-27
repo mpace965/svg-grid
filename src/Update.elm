@@ -6,12 +6,14 @@ import Time exposing (Time, every, millisecond)
 
 -- Project Imports
 
+import BfsAlgorithm exposing (update)
 import Constants exposing (defaultTickRate, numCols, numRows)
 import Model exposing (..)
 
 
 type Msg
-    = ChangeCell Int Int Cell
+    = ChangeCell Point Cell
+    | StartAlgorithm Algorithm
     | Tick Time
 
 
@@ -22,7 +24,8 @@ init =
             repeat numRows numCols Floor
 
         model =
-            { board = initialBoard
+            { activeAlgorithm = Nothing
+            , board = initialBoard
             , tickRate = defaultTickRate
             }
     in
@@ -32,11 +35,21 @@ init =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ChangeCell x y newCell ->
-            ( { model | board = (set x y newCell model.board) }, Cmd.none )
+        ChangeCell point newCell ->
+            ( { model | board = (set point.x point.y newCell model.board) }, Cmd.none )
+
+        StartAlgorithm algorithm ->
+            ( { model | activeAlgorithm = Just algorithm }, Cmd.none )
 
         Tick newTime ->
-            ( model, Cmd.none )
+            case model.activeAlgorithm of
+                Just algorithm ->
+                    case algorithm of
+                        Bfs state ->
+                            ( BfsAlgorithm.update model state, Cmd.none )
+
+                Nothing ->
+                    ( model, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
