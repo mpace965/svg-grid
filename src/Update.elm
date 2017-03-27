@@ -18,8 +18,11 @@ type Msg
 init : ( Model, Cmd Msg )
 init =
     let
+        initialBoard =
+            repeat numRows numCols Floor
+
         model =
-            { board = (repeat numRows numCols Floor)
+            { board = initialBoard
             , tickRate = defaultTickRate
             }
     in
