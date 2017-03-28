@@ -5,7 +5,7 @@ import Time exposing (Time, every, millisecond)
 
 -- Project imports
 
-import App.Model as App exposing (Algorithm(..), Model, initialModel)
+import App.Model as App exposing (Algorithm(..), Model, TickRate, initialModel)
 import BfsAlgorithm.Model exposing (ExecutionState(..), initialModel)
 import BfsAlgorithm.Update exposing (update)
 import Board.Model exposing (Point, initialModel)
@@ -16,7 +16,7 @@ import Toggle exposing (Toggle(..), toggle)
 type Msg
     = ChildBoardMsg Board.Update.Msg
     | Reset
-    | SetTickRate (Toggle Time)
+    | SetTickRate TickRate
     | StartAlgorithm Algorithm
     | Tick Time
 

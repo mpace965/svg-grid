@@ -15,11 +15,15 @@ type Algorithm
     = Bfs Point
 
 
+type alias TickRate =
+    Toggle Time
+
+
 type alias Model =
     { activeAlgorithm : Maybe Algorithm
     , bfs : BfsAlgorithm.Model
     , board : Board.Model
-    , tickRate : Toggle Time
+    , tickRate : TickRate
     }
 
 

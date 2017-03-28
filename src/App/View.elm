@@ -3,12 +3,11 @@ module App.View exposing (view)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Time exposing (Time)
 
 
 -- Project imports
 
-import App.Model as App exposing (Algorithm(..), Model)
+import App.Model as App exposing (Algorithm(..), Model, TickRate)
 import App.Update exposing (Msg(..))
 import Board.Model exposing (createPoint)
 import Board.View exposing (view)
@@ -50,7 +49,7 @@ viewBfsButton algorithm =
                 button [ onClick (StartAlgorithm (Bfs bfsStartingPoint)) ] [ text "Breadth First Search" ]
 
 
-viewPauseButton : Maybe Algorithm -> Toggle Time -> Html App.Update.Msg
+viewPauseButton : Maybe Algorithm -> TickRate -> Html App.Update.Msg
 viewPauseButton algorithm time =
     case algorithm of
         Just _ ->
@@ -65,7 +64,7 @@ viewPauseButton algorithm time =
             button [ disabled True ] [ text "Pause" ]
 
 
-viewResetButton : Toggle Time -> Html App.Update.Msg
+viewResetButton : TickRate -> Html App.Update.Msg
 viewResetButton algorithm =
     case algorithm of
         On _ ->
