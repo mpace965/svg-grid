@@ -4,8 +4,8 @@ import Board.Model as Board exposing (..)
 
 
 type Msg
-    = ChangeCell Point Cell
-    | ResetBoard
+    = ResetBoard
+    | SetCell Point Cell
 
 
 type alias Model =
@@ -20,8 +20,13 @@ init =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ChangeCell point cell ->
-            ( setPoint cell point model, Cmd.none )
-
         ResetBoard ->
             ( Board.initialModel, Cmd.none )
+
+        SetCell point cell ->
+            ( setPoint cell point model, Cmd.none )
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
