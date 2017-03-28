@@ -11,7 +11,8 @@ import App.Model as App exposing (Algorithm(..), Model, TickRate)
 import App.Update exposing (Msg(..))
 import Board.Model exposing (createPoint)
 import Board.View exposing (view)
-import Toggle exposing (Toggle(..))
+import Constants exposing (defaultTickRate, maxTickRate, stepTickRate)
+import Toggle exposing (Toggle(..), set, value)
 
 
 view : Model -> Html Msg
@@ -32,6 +33,7 @@ view model =
                 , viewPauseButton model.activeAlgorithm model.tickRate
                 , viewResetButton model.tickRate
                 ]
+            , viewSlider model.tickRate
             ]
 
 
@@ -50,10 +52,10 @@ viewBfsButton algorithm =
 
 
 viewPauseButton : Maybe Algorithm -> TickRate -> Html Msg
-viewPauseButton algorithm time =
+viewPauseButton algorithm tickRate =
     case algorithm of
         Just _ ->
-            case time of
+            case tickRate of
                 On rate ->
                     button [ onClick (SetTickRate (Off rate)) ] [ text "Pause" ]
 
@@ -72,3 +74,19 @@ viewResetButton algorithm =
 
         Off _ ->
             button [ onClick Reset ] [ text "Reset" ]
+
+
+viewSlider : TickRate -> Html Msg
+viewSlider tickRate =
+    div []
+        [ input
+            [ type_ "range"
+            , Html.Attributes.min "0"
+            , Html.Attributes.max <| toString maxTickRate
+            , step <| toString stepTickRate
+            , Html.Attributes.value <| toString (maxTickRate - Toggle.value tickRate)
+            , onInput (\value -> SetTickRate (set tickRate <| (maxTickRate - (String.toFloat value |> Result.withDefault defaultTickRate))))
+            ]
+            []
+        , text <| toString (Toggle.value tickRate) ++ " ms"
+        ]

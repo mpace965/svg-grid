@@ -13,6 +13,14 @@ defaultTickRate =
     50
 
 
+maxTickRate =
+    1000
+
+
+stepTickRate =
+    50
+
+
 numCols =
     10
 

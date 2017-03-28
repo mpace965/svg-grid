@@ -24,3 +24,13 @@ value switch =
 
         Off a ->
             a
+
+
+set : Toggle a -> a -> Toggle a
+set switch value =
+    case switch of
+        On a ->
+            On value
+
+        Off a ->
+            Off value
