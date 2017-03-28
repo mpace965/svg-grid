@@ -5,8 +5,8 @@ import Time exposing (Time, every, millisecond)
 
 -- Project imports
 
-import App.Model as App exposing (Algorithm, Model, initialModel)
-import BfsAlgorithm.Model exposing (ExecutionState, initialModel)
+import App.Model as App exposing (Algorithm(..), Model, initialModel)
+import BfsAlgorithm.Model exposing (ExecutionState(..), initialModel)
 import BfsAlgorithm.Update exposing (update)
 import Board.Model exposing (Point, initialModel)
 import Board.Update exposing (Msg)
@@ -63,7 +63,7 @@ update msg model =
 startAlgorithm : Model -> Algorithm -> ( Model, Cmd Msg )
 startAlgorithm model algorithm =
     case algorithm of
-        App.Bfs point ->
+        Bfs point ->
             let
                 initialBfsModel =
                     BfsAlgorithm.Model.initialModel
@@ -79,14 +79,14 @@ startAlgorithm model algorithm =
 stepBoard : Model -> Algorithm -> ( Model, Cmd Msg )
 stepBoard model algorithm =
     case algorithm of
-        App.Bfs _ ->
+        Bfs _ ->
             let
                 bfs =
                     BfsAlgorithm.Update.update model.board model.bfs
 
                 ( activeAlgorithm, tickRate ) =
                     case bfs.executionState of
-                        BfsAlgorithm.Model.Terminated ->
+                        Terminated ->
                             ( Nothing, toggle model.tickRate )
 
                         _ ->

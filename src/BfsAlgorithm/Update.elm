@@ -5,7 +5,7 @@ import List exposing (filterMap, foldl, head, isEmpty, tail)
 
 -- Project imports
 
-import BfsAlgorithm.Model as BfsAlgorithm exposing (ExecutionState, Model, initialModel)
+import BfsAlgorithm.Model as BfsAlgorithm exposing (ExecutionState(..), Model, initialModel)
 import Board.Model as Board exposing (..)
 
 
@@ -92,7 +92,7 @@ setExecutionState : List Point -> ExecutionState
 setExecutionState stack =
     case (isEmpty stack) of
         True ->
-            BfsAlgorithm.Terminated
+            Terminated
 
         False ->
-            BfsAlgorithm.Running
+            Running

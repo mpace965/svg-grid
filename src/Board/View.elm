@@ -8,7 +8,7 @@ import Svg.Attributes exposing (..)
 
 -- Project imports
 
-import Board.Model as Board exposing (Cell, Model)
+import Board.Model as Board exposing (Cell(..), Model)
 import Constants exposing (circleRadius, circleSpacer, numCols, numRows)
 
 
@@ -69,11 +69,11 @@ toSvg row offset =
 toColor : Cell -> String
 toColor cell =
     case cell of
-        Board.Floor ->
+        Floor ->
             "#F5F5F5"
 
-        Board.Wall ->
+        Wall ->
             "black"
 
-        Board.Marked ->
+        Marked ->
             "gray"

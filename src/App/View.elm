@@ -8,10 +8,10 @@ import Time exposing (Time)
 
 -- Project imports
 
-import App.Model as App exposing (Algorithm, Model)
-import App.Update exposing (Msg)
+import App.Model as App exposing (Algorithm(..), Model)
+import App.Update exposing (Msg(..))
 import Board.Model exposing (createPoint)
-import Board.Update exposing (Msg)
+import Board.Update exposing (Msg(..))
 import Board.View exposing (view)
 import Toggle exposing (Toggle(..))
 
@@ -48,7 +48,7 @@ viewBfsButton algorithm =
                 button [ disabled True ] [ text "Breadth First Search" ]
 
             Nothing ->
-                button [ onClick (App.Update.StartAlgorithm (App.Bfs bfsStartingPoint)) ] [ text "Breadth First Search" ]
+                button [ onClick (StartAlgorithm (Bfs bfsStartingPoint)) ] [ text "Breadth First Search" ]
 
 
 viewPauseButton : Maybe Algorithm -> Toggle Time -> Html App.Update.Msg
@@ -57,10 +57,10 @@ viewPauseButton algorithm time =
         Just _ ->
             case time of
                 On rate ->
-                    button [ onClick (App.Update.SetTickRate (Off rate)) ] [ text "Pause" ]
+                    button [ onClick (SetTickRate (Off rate)) ] [ text "Pause" ]
 
                 Off rate ->
-                    button [ onClick (App.Update.SetTickRate (On rate)) ] [ text "Unpause" ]
+                    button [ onClick (SetTickRate (On rate)) ] [ text "Unpause" ]
 
         Nothing ->
             button [ disabled True ] [ text "Pause" ]
@@ -73,4 +73,4 @@ viewResetButton algorithm =
             button [ disabled True ] [ text "Reset" ]
 
         Nothing ->
-            button [ onClick (App.Update.ChildBoardMsg Board.Update.ResetBoard) ] [ text "Reset" ]
+            button [ onClick (ChildBoardMsg ResetBoard) ] [ text "Reset" ]
