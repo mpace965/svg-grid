@@ -5,13 +5,18 @@ import Time exposing (Time, every, millisecond)
 
 -- Project imports
 
-import App.Model as App exposing (Model, initialModel)
+import App.Model as App exposing (Algorithm, Model, initialModel)
+import BfsAlgorithm.Model exposing (ExecutionState, initialModel)
+import BfsAlgorithm.Update exposing (update)
+import Board.Model exposing (Point, initialModel)
 import Board.Update exposing (Msg)
+import Constants exposing (defaultTickRate)
 
 
 type Msg
     = ChildBoardMsg Board.Update.Msg
     | SetTickRate (Maybe Time)
+    | StartAlgorithm Algorithm
     | Tick Time
 
 
@@ -35,8 +40,66 @@ update msg model =
             , Cmd.none
             )
 
+        StartAlgorithm algorithm ->
+            let
+                baseModel =
+                    { model
+                        | activeAlgorithm = Just algorithm
+                        , tickRate = Just defaultTickRate
+                        , board = Board.Model.initialModel
+                    }
+            in
+                startAlgorithm baseModel algorithm
+
         Tick _ ->
-            ( model, Cmd.none )
+            case model.activeAlgorithm of
+                Just algorithm ->
+                    stepBoard model algorithm
+
+                Nothing ->
+                    ( model, Cmd.none )
+
+
+startAlgorithm : Model -> Algorithm -> ( Model, Cmd Msg )
+startAlgorithm model algorithm =
+    case algorithm of
+        App.Bfs point ->
+            let
+                initialBfsModel =
+                    BfsAlgorithm.Model.initialModel
+
+                bfs =
+                    { initialBfsModel | stack = [ point ] }
+            in
+                ( { model | bfs = bfs }
+                , Cmd.none
+                )
+
+
+stepBoard : Model -> Algorithm -> ( Model, Cmd Msg )
+stepBoard model algorithm =
+    case algorithm of
+        App.Bfs _ ->
+            let
+                bfs =
+                    BfsAlgorithm.Update.update model.board model.bfs
+
+                ( activeAlgorithm, tickRate ) =
+                    case bfs.executionState of
+                        BfsAlgorithm.Model.Terminated ->
+                            ( Nothing, Nothing )
+
+                        _ ->
+                            ( model.activeAlgorithm, model.tickRate )
+            in
+                ( { model
+                    | activeAlgorithm = activeAlgorithm
+                    , board = bfs.newBoard
+                    , bfs = bfs
+                    , tickRate = tickRate
+                  }
+                , Cmd.none
+                )
 
 
 subscriptions : Model -> Sub Msg
