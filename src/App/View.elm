@@ -14,7 +14,7 @@ import Board.View exposing (view)
 import Toggle exposing (Toggle(..))
 
 
-view : Model -> Html App.Update.Msg
+view : Model -> Html Msg
 view model =
     let
         boardStyle =
@@ -35,7 +35,7 @@ view model =
             ]
 
 
-viewBfsButton : Maybe Algorithm -> Html App.Update.Msg
+viewBfsButton : Maybe Algorithm -> Html Msg
 viewBfsButton algorithm =
     let
         bfsStartingPoint =
@@ -49,7 +49,7 @@ viewBfsButton algorithm =
                 button [ onClick (StartAlgorithm (Bfs bfsStartingPoint)) ] [ text "Breadth First Search" ]
 
 
-viewPauseButton : Maybe Algorithm -> TickRate -> Html App.Update.Msg
+viewPauseButton : Maybe Algorithm -> TickRate -> Html Msg
 viewPauseButton algorithm time =
     case algorithm of
         Just _ ->
@@ -64,7 +64,7 @@ viewPauseButton algorithm time =
             button [ disabled True ] [ text "Pause" ]
 
 
-viewResetButton : TickRate -> Html App.Update.Msg
+viewResetButton : TickRate -> Html Msg
 viewResetButton algorithm =
     case algorithm of
         On _ ->
