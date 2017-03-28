@@ -15,6 +15,7 @@ import Toggle exposing (Toggle(..), toggle)
 
 type Msg
     = ChildBoardMsg Board.Update.Msg
+    | Reset
     | SetTickRate (Toggle Time)
     | StartAlgorithm Algorithm
     | Tick Time
@@ -34,6 +35,9 @@ update msg model =
     case msg of
         ChildBoardMsg msg ->
             ( { model | board = Board.Update.update msg model.board }, Cmd.none )
+
+        Reset ->
+            init
 
         SetTickRate time ->
             ( { model | tickRate = time }

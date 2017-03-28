@@ -11,7 +11,6 @@ import Time exposing (Time)
 import App.Model as App exposing (Algorithm(..), Model)
 import App.Update exposing (Msg(..))
 import Board.Model exposing (createPoint)
-import Board.Update exposing (Msg(..))
 import Board.View exposing (view)
 import Toggle exposing (Toggle(..))
 
@@ -32,7 +31,7 @@ view model =
             , div []
                 [ viewBfsButton model.activeAlgorithm
                 , viewPauseButton model.activeAlgorithm model.tickRate
-                , viewResetButton model.activeAlgorithm
+                , viewResetButton model.tickRate
                 ]
             ]
 
@@ -66,11 +65,11 @@ viewPauseButton algorithm time =
             button [ disabled True ] [ text "Pause" ]
 
 
-viewResetButton : Maybe Algorithm -> Html App.Update.Msg
+viewResetButton : Toggle Time -> Html App.Update.Msg
 viewResetButton algorithm =
     case algorithm of
-        Just _ ->
+        On _ ->
             button [ disabled True ] [ text "Reset" ]
 
-        Nothing ->
-            button [ onClick (ChildBoardMsg ResetBoard) ] [ text "Reset" ]
+        Off _ ->
+            button [ onClick Reset ] [ text "Reset" ]
