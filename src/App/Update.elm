@@ -10,12 +10,12 @@ import BfsAlgorithm.Model exposing (ExecutionState, initialModel)
 import BfsAlgorithm.Update exposing (update)
 import Board.Model exposing (Point, initialModel)
 import Board.Update exposing (Msg)
-import Constants exposing (defaultTickRate)
+import Toggle exposing (Toggle(..), toggle)
 
 
 type Msg
     = ChildBoardMsg Board.Update.Msg
-    | SetTickRate (Maybe Time)
+    | SetTickRate (Toggle Time)
     | StartAlgorithm Algorithm
     | Tick Time
 
@@ -45,7 +45,7 @@ update msg model =
                 baseModel =
                     { model
                         | activeAlgorithm = Just algorithm
-                        , tickRate = Just defaultTickRate
+                        , tickRate = toggle model.tickRate
                         , board = Board.Model.initialModel
                     }
             in
@@ -87,7 +87,7 @@ stepBoard model algorithm =
                 ( activeAlgorithm, tickRate ) =
                     case bfs.executionState of
                         BfsAlgorithm.Model.Terminated ->
-                            ( Nothing, Nothing )
+                            ( Nothing, toggle model.tickRate )
 
                         _ ->
                             ( model.activeAlgorithm, model.tickRate )
@@ -107,10 +107,10 @@ subscriptions model =
     let
         appSub =
             case model.tickRate of
-                Just tickRate ->
-                    every (tickRate * millisecond) Tick
+                On rate ->
+                    every (rate * millisecond) Tick
 
-                Nothing ->
+                Off _ ->
                     Sub.none
     in
         Sub.batch

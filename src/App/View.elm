@@ -13,7 +13,7 @@ import App.Update exposing (Msg)
 import Board.Model exposing (createPoint)
 import Board.Update exposing (Msg)
 import Board.View exposing (view)
-import Constants exposing (..)
+import Toggle exposing (Toggle(..))
 
 
 view : Model -> Html App.Update.Msg
@@ -51,16 +51,16 @@ viewBfsButton algorithm =
                 button [ onClick (App.Update.StartAlgorithm (App.Bfs bfsStartingPoint)) ] [ text "Breadth First Search" ]
 
 
-viewPauseButton : Maybe Algorithm -> Maybe Time -> Html App.Update.Msg
+viewPauseButton : Maybe Algorithm -> Toggle Time -> Html App.Update.Msg
 viewPauseButton algorithm time =
     case algorithm of
         Just _ ->
             case time of
-                Just _ ->
-                    button [ onClick (App.Update.SetTickRate Nothing) ] [ text "Pause" ]
+                On rate ->
+                    button [ onClick (App.Update.SetTickRate (Off rate)) ] [ text "Pause" ]
 
-                Nothing ->
-                    button [ onClick (App.Update.SetTickRate (Just defaultTickRate)) ] [ text "Unpause" ]
+                Off rate ->
+                    button [ onClick (App.Update.SetTickRate (On rate)) ] [ text "Unpause" ]
 
         Nothing ->
             button [ disabled True ] [ text "Pause" ]
