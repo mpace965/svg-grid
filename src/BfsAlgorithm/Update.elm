@@ -5,7 +5,7 @@ import List exposing (filterMap, foldl, head, isEmpty, tail)
 
 -- Project imports
 
-import BfsAlgorithm.Model as BfsAlgorithm exposing (ExecutionState(..), Model, initialModel)
+import BfsAlgorithm.Model as BfsAlgorithm exposing (ExecutionState(..), Model, Queue, initialModel)
 import Board.Model as Board exposing (..)
 
 
@@ -22,7 +22,7 @@ update : Board.Model -> Model -> Model
 update board model =
     let
         currentPoint =
-            head model.stack
+            head model.queue
 
         currentNeighbors =
             case currentPoint of
@@ -41,8 +41,8 @@ update board model =
                 Nothing ->
                     board
 
-        stack =
-            case (tail model.stack) of
+        queue =
+            case (tail model.queue) of
                 Just rest ->
                     rest ++ currentNeighbors
 
@@ -50,16 +50,16 @@ update board model =
                     currentNeighbors
 
         executionState =
-            setExecutionState stack
+            setExecutionState queue
     in
         { model
             | executionState = executionState
             , newBoard = newBoard
-            , stack = stack
+            , queue = queue
         }
 
 
-neighbors : Board.Model -> Point -> List Point
+neighbors : Board.Model -> Point -> Queue
 neighbors board point =
     let
         adjacent =
@@ -83,14 +83,14 @@ floorPoint board point =
             Nothing
 
 
-markNeighbors : List Point -> Board.Model -> Board.Model
+markNeighbors : Queue -> Board.Model -> Board.Model
 markNeighbors neighbors board =
     foldl (setPoint Marked) board neighbors
 
 
-setExecutionState : List Point -> ExecutionState
-setExecutionState stack =
-    case (isEmpty stack) of
+setExecutionState : Queue -> ExecutionState
+setExecutionState queue =
+    case (isEmpty queue) of
         True ->
             Terminated
 

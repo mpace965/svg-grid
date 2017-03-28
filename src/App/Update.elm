@@ -69,7 +69,7 @@ startAlgorithm model algorithm =
                     BfsAlgorithm.Model.initialModel
 
                 bfs =
-                    { initialBfsModel | stack = [ point ] }
+                    { initialBfsModel | queue = [ point ] }
             in
                 ( { model | bfs = bfs }
                 , Cmd.none

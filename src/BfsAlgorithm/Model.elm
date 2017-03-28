@@ -11,10 +11,14 @@ type ExecutionState
     | Terminated
 
 
+type alias Queue =
+    List Point
+
+
 type alias Model =
     { executionState : ExecutionState
     , newBoard : Board.Model
-    , stack : List Point
+    , queue : Queue
     }
 
 
@@ -22,5 +26,5 @@ initialModel : Model
 initialModel =
     { executionState = Terminated
     , newBoard = Board.initialModel
-    , stack = [ (createPoint 0 0) ]
+    , queue = [ (createPoint 0 0) ]
     }
