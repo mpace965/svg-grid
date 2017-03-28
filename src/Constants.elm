@@ -10,7 +10,7 @@ circleSpacer =
 
 
 defaultTickRate =
-    1000
+    250
 
 
 numCols =

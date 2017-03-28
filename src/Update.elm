@@ -54,6 +54,7 @@ update msg model =
                     { model
                         | activeAlgorithm = Just algorithm
                         , tickRate = Just defaultTickRate
+                        , board = initialBoard
                     }
             in
                 ( newModel, Cmd.none )

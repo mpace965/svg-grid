@@ -29,6 +29,30 @@ renderPauseButton algorithm time =
             button [ disabled True ] [ text "Pause" ]
 
 
+renderBfsButton : Maybe Algorithm -> Html Msg
+renderBfsButton algorithm =
+    let
+        bfsStartingState =
+            [ (createPoint 3 4) ]
+    in
+        case algorithm of
+            Just _ ->
+                button [ disabled True ] [ text "Breadth First Search" ]
+
+            Nothing ->
+                button [ onClick (StartAlgorithm (Bfs bfsStartingState)) ] [ text "Breadth First Search" ]
+
+
+renderResetButton : Maybe Algorithm -> Html Msg
+renderResetButton algorithm =
+    case algorithm of
+        Just _ ->
+            button [ disabled True ] [ text "Reset" ]
+
+        Nothing ->
+            button [ onClick (ResetBoard) ] [ text "Reset" ]
+
+
 view : Model -> Html Msg
 view model =
     let
@@ -39,15 +63,12 @@ view model =
                 , ( "justifyContent", "center" )
                 , ( "flexDirection", "column" )
                 ]
-
-        bfsStartingState =
-            [ (createPoint 3 4) ]
     in
         div [ boardStyle ]
             [ renderBoard model.board
             , div []
-                [ button [ onClick (StartAlgorithm (Bfs bfsStartingState)) ] [ text "Breadth First Search" ]
+                [ (renderBfsButton model.activeAlgorithm)
                 , (renderPauseButton model.activeAlgorithm model.tickRate)
-                , button [ onClick (ResetBoard) ] [ text "Reset" ]
+                , (renderResetButton model.activeAlgorithm)
                 ]
             ]
