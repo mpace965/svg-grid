@@ -12,21 +12,16 @@ type alias Model =
     Board.Model
 
 
-init : ( Model, Cmd Msg )
+init : Model
 init =
-    ( Board.initialModel, Cmd.none )
+    Board.initialModel
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         ResetBoard ->
-            ( Board.initialModel, Cmd.none )
+            Board.initialModel
 
         SetCell point cell ->
-            ( setPoint cell point model, Cmd.none )
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.none
+            setPoint cell point model

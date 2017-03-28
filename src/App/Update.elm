@@ -28,13 +28,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ChildBoardMsg msg ->
-            let
-                ( childModel, childCmd ) =
-                    Board.Update.update msg model.board
-            in
-                ( { model | board = childModel }
-                , Cmd.map ChildBoardMsg childCmd
-                )
+            ( { model | board = Board.Update.update msg model.board }, Cmd.none )
 
         SetTickRate time ->
             ( { model | tickRate = time }
@@ -58,5 +52,5 @@ subscriptions model =
     in
         Sub.batch
             [ appSub
-            , Sub.map ChildBoardMsg (Board.Update.subscriptions model.board)
+              -- Put child subscriptions here if needed
             ]
