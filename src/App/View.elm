@@ -78,7 +78,13 @@ viewResetButton algorithm =
 
 viewSlider : TickRate -> Html Msg
 viewSlider tickRate =
-    div []
+    div
+        [ style
+            [ ( "display", "flex" )
+            , ( "justifyContent", "space-between" )
+            , ( "width", "245px" )
+            ]
+        ]
         [ input
             [ type_ "range"
             , Html.Attributes.min "0"
