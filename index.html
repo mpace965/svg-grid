@@ -9185,32 +9185,49 @@ var _user$project$Constants$defaultTickRate = 50;
 var _user$project$Constants$circleSpacer = 5;
 var _user$project$Constants$circleRadius = 10;
 var _user$project$Board_Model$belowOf = function (point) {
-	return {x: point.x, y: point.y + 1};
+	return {
+		ctor: '_Tuple2',
+		_0: _elm_lang$core$Tuple$first(point),
+		_1: _elm_lang$core$Tuple$second(point) - 1
+	};
 };
 var _user$project$Board_Model$aboveOf = function (point) {
-	return {x: point.x, y: point.y - 1};
+	return {
+		ctor: '_Tuple2',
+		_0: _elm_lang$core$Tuple$first(point),
+		_1: _elm_lang$core$Tuple$second(point) + 1
+	};
 };
 var _user$project$Board_Model$rightOf = function (point) {
-	return {x: point.x + 1, y: point.y};
+	return {
+		ctor: '_Tuple2',
+		_0: _elm_lang$core$Tuple$first(point) + 1,
+		_1: _elm_lang$core$Tuple$second(point)
+	};
 };
 var _user$project$Board_Model$leftOf = function (point) {
-	return {x: point.x - 1, y: point.y};
+	return {
+		ctor: '_Tuple2',
+		_0: _elm_lang$core$Tuple$first(point) - 1,
+		_1: _elm_lang$core$Tuple$second(point)
+	};
 };
 var _user$project$Board_Model$setPoint = F3(
 	function (element, point, array) {
-		return A4(_tortus$elm_array_2d$Array2D$set, point.x, point.y, element, array);
+		return A4(
+			_tortus$elm_array_2d$Array2D$set,
+			_elm_lang$core$Tuple$first(point),
+			_elm_lang$core$Tuple$second(point),
+			element,
+			array);
 	});
 var _user$project$Board_Model$getPoint = F2(
 	function (point, array) {
-		return A3(_tortus$elm_array_2d$Array2D$get, point.x, point.y, array);
-	});
-var _user$project$Board_Model$createPoint = F2(
-	function (x, y) {
-		return {x: x, y: y};
-	});
-var _user$project$Board_Model$Point = F2(
-	function (a, b) {
-		return {x: a, y: b};
+		return A3(
+			_tortus$elm_array_2d$Array2D$get,
+			_elm_lang$core$Tuple$first(point),
+			_elm_lang$core$Tuple$second(point),
+			array);
 	});
 var _user$project$Board_Model$Marked = {ctor: 'Marked'};
 var _user$project$Board_Model$Wall = {ctor: 'Wall'};
@@ -9226,7 +9243,7 @@ var _user$project$BfsAlgorithm_Model$initialModel = {
 	newBoard: _user$project$Board_Model$initialModel,
 	queue: {
 		ctor: '::',
-		_0: A2(_user$project$Board_Model$createPoint, 0, 0),
+		_0: {ctor: '_Tuple2', _0: 0, _1: 0},
 		_1: {ctor: '[]'}
 	}
 };
@@ -9614,7 +9631,24 @@ var _user$project$Board_View$view = function (model) {
 var _user$project$App_View$viewSlider = function (tickRate) {
 	return A2(
 		_elm_lang$html$Html$div,
-		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$style(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'display', _1: 'flex'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'justifyContent', _1: 'space-between'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'width', _1: '245px'},
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {ctor: '[]'}
+		},
 		{
 			ctor: '::',
 			_0: A2(
@@ -9753,7 +9787,6 @@ var _user$project$App_View$viewPauseButton = F2(
 		}
 	});
 var _user$project$App_View$viewBfsButton = function (algorithm) {
-	var bfsStartingPoint = A2(_user$project$Board_Model$createPoint, 3, 4);
 	var _p3 = algorithm;
 	if (_p3.ctor === 'Just') {
 		return A2(
@@ -9775,7 +9808,8 @@ var _user$project$App_View$viewBfsButton = function (algorithm) {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Events$onClick(
 					_user$project$App_Update$StartAlgorithm(
-						_user$project$App_Model$Bfs(bfsStartingPoint))),
+						_user$project$App_Model$Bfs(
+							{ctor: '_Tuple2', _0: 3, _1: 4}))),
 				_1: {ctor: '[]'}
 			},
 			{
