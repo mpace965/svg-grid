@@ -1,6 +1,7 @@
 module Board.Model exposing (..)
 
 import Array2D exposing (Array2D, get, repeat, set)
+import Tuple exposing (first, second)
 
 
 -- Project imports
@@ -19,9 +20,7 @@ type Cell
 
 
 type alias Point =
-    { x : Int
-    , y : Int
-    }
+    ( Int, Int )
 
 
 initialModel : Model
@@ -29,46 +28,31 @@ initialModel =
     repeat numRows numCols Floor
 
 
-createPoint : Int -> Int -> Point
-createPoint x y =
-    { x = x
-    , y = y
-    }
-
-
 getPoint : Point -> Array2D a -> Maybe a
 getPoint point array =
-    get point.x point.y array
+    get (first point) (second point) array
 
 
 setPoint : a -> Point -> Array2D a -> Array2D a
 setPoint element point array =
-    set point.x point.y element array
+    set (first point) (second point) element array
 
 
 leftOf : Point -> Point
 leftOf point =
-    { x = point.x - 1
-    , y = point.y
-    }
+    ( (first point) - 1, (second point) )
 
 
 rightOf : Point -> Point
 rightOf point =
-    { x = point.x + 1
-    , y = point.y
-    }
+    ( (first point) + 1, (second point) )
 
 
 aboveOf : Point -> Point
 aboveOf point =
-    { x = point.x
-    , y = point.y - 1
-    }
+    ( (first point), (second point) + 1 )
 
 
 belowOf : Point -> Point
 belowOf point =
-    { x = point.x
-    , y = point.y + 1
-    }
+    ( (first point), (second point) - 1 )

@@ -9,7 +9,6 @@ import Html.Events exposing (..)
 
 import App.Model as App exposing (Algorithm(..), Model, TickRate)
 import App.Update exposing (Msg(..))
-import Board.Model exposing (createPoint)
 import Board.View exposing (view)
 import Constants exposing (defaultTickRate, maxTickRate, stepTickRate)
 import Toggle exposing (Toggle(..), set, value)
@@ -39,16 +38,12 @@ view model =
 
 viewBfsButton : Maybe Algorithm -> Html Msg
 viewBfsButton algorithm =
-    let
-        bfsStartingPoint =
-            (createPoint 3 4)
-    in
-        case algorithm of
-            Just _ ->
-                button [ disabled True ] [ text "Breadth First Search" ]
+    case algorithm of
+        Just _ ->
+            button [ disabled True ] [ text "Breadth First Search" ]
 
-            Nothing ->
-                button [ onClick (StartAlgorithm (Bfs bfsStartingPoint)) ] [ text "Breadth First Search" ]
+        Nothing ->
+            button [ onClick (StartAlgorithm (Bfs ( 3, 4 ))) ] [ text "Breadth First Search" ]
 
 
 viewPauseButton : Maybe Algorithm -> TickRate -> Html Msg

@@ -2,7 +2,7 @@ module BfsAlgorithm.Model exposing (..)
 
 -- Project imports
 
-import Board.Model as Board exposing (Model, Point, createPoint, initialModel)
+import Board.Model as Board exposing (Model, Point, initialModel)
 
 
 type ExecutionState
@@ -26,5 +26,5 @@ initialModel : Model
 initialModel =
     { executionState = Terminated
     , newBoard = Board.initialModel
-    , queue = [ (createPoint 0 0) ]
+    , queue = [ ( 0, 0 ) ]
     }
